@@ -385,14 +385,31 @@ h1 { font-family: var(--display); font-weight: 700; text-transform: uppercase; l
 
 /* ── Banco de imágenes y video ── */
 /* Fotos y videos de banco integrados en las secciones (sin títulos propios) */
-.pic { margin: 0; overflow: hidden; background: #0B0909; border: 1px solid rgba(232, 237, 242, .14); position: relative; }
-.pic img, .pic video { display: block; width: 100%; height: 100%; object-fit: cover; }
-.pic-wide { aspect-ratio: 16 / 9; margin-top: clamp(2.5rem, 6vw, 4rem); }
-.pic-hero { aspect-ratio: 16 / 9; margin-top: 2.5rem; max-width: 56rem; }
-.pic-row { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin-top: clamp(2.5rem, 6vw, 4rem); padding-bottom: clamp(3rem, 7vw, 5rem); }
+.pic { --frame: var(--yellow); --cut: 28px; margin: 0; position: relative; isolation: isolate; background: transparent; }
+.pic::before { content: ""; position: absolute; inset: 0; z-index: -1; transform: translate(14px, 14px); border: 2px solid var(--frame); clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%); transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+.pic img, .pic video { display: block; width: 100%; height: 100%; object-fit: cover; background: #151112; filter: saturate(1.08) contrast(1.03); clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%); transform: scale(1.07); transition: transform 1.6s cubic-bezier(.22, 1, .36, 1); }
+.js .pic.in img, .js .pic.in video, .pic:not(.reveal) img { transform: scale(1); }
+.pic:hover img, .pic:hover video { transform: scale(1.04); }
+.pic:hover::before { transform: translate(8px, 8px); }
+/* velo de marca: degradado púrpura arriba y negro abajo, con una estrella amarilla como sello */
+.pic::after { content: ""; position: absolute; inset: 0; pointer-events: none; clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFC600' d='M12 1.5l3.1 6.9 7.4.8-5.6 5 1.6 7.4L12 17.8 5.5 21.6l1.6-7.4-5.6-5 7.4-.8z'/%3E%3C/svg%3E") no-repeat left 1rem bottom 1rem / 1.5rem,
+  linear-gradient(180deg, rgba(11, 9, 9, 0) 58%, rgba(11, 9, 9, .6) 100%),
+  linear-gradient(135deg, rgba(115, 0, 255, .26) 0%, rgba(115, 0, 255, 0) 48%); }
+#manifiesto .pic { --frame: var(--yellow); }
+#presentacion .pic { --frame: var(--yellow); }
+#servicios .pic { --frame: var(--purple); }
+#servicios .pic:nth-child(2) { --frame: var(--yellow); }
+#trabajos .pic { --frame: var(--black); }
+#nosotros .pic { --frame: var(--purple); }
+#nosotros .pic:nth-child(2) { --frame: var(--yellow); }
+.pic-wide { aspect-ratio: 16 / 9; margin: clamp(2.5rem, 6vw, 4rem) 14px 14px 0; }
+.pic-hero { aspect-ratio: 16 / 9; margin: 2.5rem 14px 14px 0; max-width: 56rem; }
+.pic-row { display: grid; gap: 2rem; padding-right: 14px; grid-template-columns: 1fr; margin-top: clamp(2.5rem, 6vw, 4rem); padding-bottom: clamp(3rem, 7vw, 5rem); }
 .pic-row .pic { aspect-ratio: 4 / 3; }
-.pic-row-2 { padding-bottom: 0; }
+.pic-row-2 { padding-bottom: 14px; }
 .pic-row-2 .pic-tall { aspect-ratio: 3 / 4; }
+@media (max-width: 520px) { .pic { --cut: 20px; } .pic::before { transform: translate(8px, 8px); } .pic-row { padding-right: 8px; } .pic-hero, .pic-wide { margin-right: 8px; } }
 @media (min-width: 700px) { .pic-row { grid-template-columns: 1fr 1fr; } .pic-wide { aspect-ratio: 21 / 9; } .pic-row-2 { grid-template-columns: 3fr 4fr; align-items: stretch; } .pic-row-2 .pic { aspect-ratio: auto; min-height: 22rem; } }
 .identity h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase; line-height: .95; font-size: clamp(2.4rem, 7vw, 5.6rem); }
 
