@@ -445,3 +445,9 @@ h1 { font-family: var(--display); font-weight: 700; text-transform: uppercase; l
 .faq-item p { padding: 1rem 1.25rem 1.25rem; color: rgba(11, 9, 9, .9); }
 @media (min-width: 900px) { .faq-grid { grid-template-columns: 1fr 1.2fr; align-items: start; } }
 @media (min-width: 900px) { .swatches { grid-template-columns: repeat(2, 1fr); } }
+
+/* Mensaje de marca del cierre de la historia (escena 4) */
+.cin-msg { position: absolute; left: 0; right: 0; bottom: 7%; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .8rem; text-align: center; pointer-events: none; opacity: 0; transform: translateY(16px); transition: opacity .9s ease, transform .9s ease; padding: 0 1rem; }
+.cin-msg.on { opacity: 1; transform: none; }
+.cin-msg .logo { width: min(48vw, 250px); height: auto; aspect-ratio: 913 / 327; color: var(--yellow); filter: drop-shadow(0 4px 18px rgba(115, 0, 255, .6)); }
+.cin-msg p { margin: 0; font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: .2em; font-size: clamp(.8rem, 1.7vw, 1.15rem); color: #fff; text-shadow: 0 2px 14px rgba(0, 0, 0, .7); }

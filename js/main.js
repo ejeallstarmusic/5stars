@@ -79,7 +79,7 @@
       var visible = true, rt = 0;
       var sync = function () { if (reduce) return; if (visible && !document.hidden) scene.start(); else scene.stop(); };
       if (reduce) {
-        scene.renderStill(9.8); // fotograma estático del momento protagonista
+        scene.renderStill(scene.kind === "webgl" ? 18 : 9.8); // fotograma estático del momento protagonista
       } else {
         sync();
         if ("IntersectionObserver" in window) {
@@ -89,7 +89,7 @@
       }
       window.addEventListener("resize", function () {
         clearTimeout(rt);
-        rt = setTimeout(function () { if (reduce) scene.renderStill(9.8); else scene.resize(); }, 150);
+        rt = setTimeout(function () { if (reduce) scene.renderStill(scene.kind === "webgl" ? 18 : 9.8); else scene.resize(); }, 150);
       });
       window.__scene = scene; // para pruebas manuales en la consola
     }
