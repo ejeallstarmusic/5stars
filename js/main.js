@@ -120,6 +120,16 @@
   window.addEventListener("load", checkStock);
   setTimeout(checkStock, 1500);
 
+  /* Videos integrados: se reproducen solo cuando están a la vista; con "reducir movimiento" quedan en pausa con controles */
+  $$(".stock video").forEach(function (v) {
+    if (reduce) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; return; }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) {
+        en.forEach(function (x) { if (x.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
+      }, { threshold: 0.25 }).observe(v);
+    }
+  });
+
   /* Formulario de contacto */
   var form = $("#contact-form");
   if (form) {
