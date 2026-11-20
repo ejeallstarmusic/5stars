@@ -72,8 +72,9 @@
 
   /* Escena audiovisual del primer bloque */
   var canvas = $("#scene");
-  if (canvas && window.StarsScene) {
-    var scene = window.StarsScene.create(canvas, canvas.parentElement);
+  if (canvas && (window.StarsScene3D || window.StarsScene)) {
+    /* primero el hero 3D (WebGL, cromo y plástico); si no hay WebGL, la animación 2D */
+    var scene = (window.StarsScene3D && window.StarsScene3D.create(canvas, canvas.parentElement)) || (window.StarsScene && window.StarsScene.create(canvas, canvas.parentElement));
     if (scene) {
       var visible = true, rt = 0;
       var sync = function () { if (reduce) return; if (visible && !document.hidden) scene.start(); else scene.stop(); };
