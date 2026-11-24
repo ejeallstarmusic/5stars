@@ -38,10 +38,10 @@
   }
   function rgba(h, a) { var c = hex(h); return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; }
   /* degradado cálido: matiz del amarillo (46°) al morado (267°) pasando por naranja, rojo y magenta */
+  /* degradado solo con colores de marca: amarillo → morado, con transición corta para no generar tonos intermedios ajenos */
   function warm(t) {
-    var h = (((46 - 139 * clamp(t)) % 360) + 360) % 360 / 360, q = 1, pp = 0.5 * 2 - 1;
-    function f(n) { var k = (n + h * 12) % 12, m = Math.max(-1, Math.min(k - 3, 9 - k, 1)); return Math.round(255 * (0.5 - 0.5 * m)).toString(16).padStart(2, "0"); }
-    return "#" + f(0) + f(8) + f(4);
+    var k = ease((clamp(t) - 0.35) / 0.3), A = hex(Y), B = hex(P);
+    return "#" + [0, 1, 2].map(function (i) { return Math.round(lerp(A[i], B[i], k)).toString(16).padStart(2, "0"); }).join("");
   }
   function lin(c, x0, y0, x1, y1, stops) {
     var g = c.createLinearGradient(x0, y0, x1, y1);
@@ -141,7 +141,7 @@
     if (chrome) {
       c.save(); rr(c, x0, y0, w, h, 16); c.clip();
       c.fillStyle = "#EEF0F5"; c.fillRect(x0, y0, w, 30);
-      ["#FF6B6B", Y, "#38D9A9"].forEach(function (col, i) { c.fillStyle = col; c.beginPath(); c.arc(x0 + 18 + i * 16, y0 + 15, 4.5, 0, 7); c.fill(); });
+      [P, Y, "#B9A6FF"].forEach(function (col, i) { c.fillStyle = col; c.beginPath(); c.arc(x0 + 18 + i * 16, y0 + 15, 4.5, 0, 7); c.fill(); });
       c.restore(); top = y0 + 30 + 16;
     }
     var x = x0 + 20;
@@ -162,7 +162,7 @@
     var ba = rv(b, 0.34);
     if (ba > 0) {
       c.save(); c.globalAlpha = ba; rr(c, x, by, iw, bh, 12); c.clip();
-      c.fillStyle = lin(c, x, by, x + iw, by + bh, [[0, P], [0.6, "#B83CFF"], [1, warm(0.2)]]); c.fillRect(x, by, iw, bh);
+      c.fillStyle = lin(c, x, by, x + iw, by + bh, [[0, P], [0.6, "#9B4DFF"], [1, warm(0.2)]]); c.fillRect(x, by, iw, bh);
       c.fillStyle = "rgba(255,255,255,.95)"; rr(c, x + 22, by + bh * 0.28, iw * 0.34, 14, 7); c.fill();
       c.fillStyle = "rgba(255,255,255,.55)"; rr(c, x + 22, by + bh * 0.28 + 24, iw * 0.24, 10, 5); c.fill();
       c.fillStyle = Y; rr(c, x + 22, by + bh * 0.28 + 48, iw * 0.14, 20, 10); c.fill();
@@ -266,7 +266,7 @@
         x = lerp(it.x, it.t === -1 ? -470 : 470, m2); y = lerp(y, it.t === -1 ? 150 : -170, m2) + Math.sin(lt * 1.6 + i) * 8 * m2; gr = lerp(GY, undefined === 0 ? 0 : GY, 0) ; if (m2 > 0.05) gr = undefined;
       }
       var r = it.r * s;
-      if (it.kind === "sphere") sphere(c, x, y, r, P, "#C23BFF", gr);
+      if (it.kind === "sphere") sphere(c, x, y, r, P, "#9B4DFF", gr);
       else if (it.kind === "cone") cone(c, x, y, r * 1.6, r * 1.8, "#FFE45C", warm(0.3), gr);
       else if (it.kind === "cube") cube(c, x, y + r * 0.2, r * 0.9, "#9B5CFF", "#5A00D6", "#3E0099", gr);
       else if (it.kind === "ring") ring(c, x, y, r * 0.95, r * 0.34, K, "#4A2C8F", 0.3);
@@ -278,7 +278,7 @@
   function icon(c, kind, x, y, s) {
     if (s <= 0.02) return;
     c.save(); c.translate(x, y); c.scale(s, s);
-    sphere(c, 0, 0, 42, kind === 1 ? Y : P, kind === 1 ? warm(0.3) : "#C23BFF");
+    sphere(c, 0, 0, 42, kind === 1 ? Y : P, kind === 1 ? warm(0.3) : "#9B4DFF");
     c.strokeStyle = kind === 1 ? K : "#fff"; c.fillStyle = c.strokeStyle; c.lineWidth = 3.5; c.lineCap = "round"; c.lineJoin = "round";
     if (kind === 0) { c.beginPath(); c.moveTo(-20, -14); c.lineTo(-13, -14); c.lineTo(-8, 8); c.lineTo(14, 8); c.lineTo(18, -8); c.lineTo(-11, -8); c.stroke(); c.beginPath(); c.arc(-6, 17, 3, 0, 7); c.arc(12, 17, 3, 0, 7); c.fill(); }
     else if (kind === 1) { rr(c, -20, -13, 40, 26, 5); c.stroke(); c.fillRect(-20, -6, 40, 6); }
@@ -352,7 +352,7 @@
     }
     /* volúmenes que orbitan */
     var o = lt * 0.9;
-    sphere(c, 400 + Math.cos(o) * 30, -170 + Math.sin(o * 1.3) * 18, 34 * bk((lt - 1.3) / 0.6), P, "#C23BFF");
+    sphere(c, 400 + Math.cos(o) * 30, -170 + Math.sin(o * 1.3) * 18, 34 * bk((lt - 1.3) / 0.6), P, "#9B4DFF");
     cone(c, -420, -150 + Math.sin(o) * 14, 70 * bk((lt - 1.5) / 0.6), 80 * bk((lt - 1.5) / 0.6), "#FFE45C", warm(0.3));
     ring(c, 420, 215 + Math.sin(o * 1.1) * 10, 54 * bk((lt - 1.7) / 0.6), 18, K, "#4A2C8F", -0.3);
     pill(c, -150, 255, 120 * bk((lt - 1.9) / 0.6), 34 * bk((lt - 1.9) / 0.6), Y, warm(0.3), 0.2);
