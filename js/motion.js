@@ -221,7 +221,7 @@
     c.fillStyle = g; c.fillRect(-3000, -3000, 6000, 6000);
     var z = lt * 0.75 + 2.6 * Math.pow(ease((lt - 2.9) / 1.1), 2);
     var n0 = Math.floor(z), f = z - n0, base = 1700, ratio = 0.62;
-    var pal = [[Y, warm(0.25)], [warm(0.3), warm(0.62)], [warm(0.7), P], [W, "#B9A6FF"]];
+    var pal = [[Y, "#FFD43A"], [P, "#5A00D6"], [W, "#B9A6FF"], ["#9B4DFF", P]];
     c.save(); c.rotate(0.45 * Math.sin(lt * 0.55));
     for (var k = 0; k < 11; k++) {
       var s = base * Math.pow(ratio, k - f);
@@ -295,7 +295,7 @@
     var u = eio((lt - 0.4) / 3.4);
     /* trazo de la curva con degradado cálido */
     c.lineWidth = 7; c.lineCap = "round"; c.lineJoin = "round";
-    c.strokeStyle = lin(c, -440, 0, 440, 0, [[0, Y], [0.5, warm(0.5)], [1, P]]);
+    c.strokeStyle = lin(c, -440, 0, 440, 0, [[0, Y], [0.5, W], [1, P]]);
     c.beginPath();
     for (var k = 0; k <= 80; k++) { var uu = u * k / 80, p = curve(uu); if (k === 0) c.moveTo(p[0], p[1]); else c.lineTo(p[0], p[1]); }
     c.stroke();
