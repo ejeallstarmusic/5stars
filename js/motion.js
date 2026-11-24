@@ -456,8 +456,12 @@
     }
 
     var raf = 0, running = false, last = 0;
+    var acc = 0, nf = 0;
     function frame(now) {
-      var dt = Math.min((now - last) / 1000, 0.05);
+      var raw = now - last;
+      /* resolución adaptativa: si el equipo va lento (>34 ms por cuadro en promedio), baja la resolución interna */
+      if (raw < 250) { acc += raw; nf++; if (nf === 45) { if (acc / nf > 34 && dpr > 0.75) { dpr = Math.max(0.75, dpr * 0.8); resize(); } acc = 0; nf = 0; } }
+      var dt = Math.min(raw / 1000, 0.05);
       last = now; clock = (clock + dt) % T;
       render(clock);
       raf = requestAnimationFrame(frame);

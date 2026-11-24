@@ -72,29 +72,42 @@
 
   /* Escena audiovisual del primer bloque */
   var canvas = $("#scene");
-  if (canvas && (window.StarsMotion || window.StarsScene3D || window.StarsScene)) {
-    /* primero el hero 3D (WebGL, cromo y plástico); si no hay WebGL, la animación 2D */
-    var scene = (window.StarsMotion && window.StarsMotion.create(canvas, canvas.parentElement)) || (window.StarsScene3D && window.StarsScene3D.create(canvas, canvas.parentElement)) || (window.StarsScene && window.StarsScene.create(canvas, canvas.parentElement));
-    if (scene) {
-      var visible = true, rt = 0;
-      var sync = function () { if (reduce) return; if (visible && !document.hidden) scene.start(); else scene.stop(); };
-      if (reduce) {
-        scene.renderStill(scene.kind === "motion" ? 24.2 : scene.kind === "webgl" ? 18 : 9.8); // fotograma estático del momento protagonista
-      } else {
-        sync();
-        if ("IntersectionObserver" in window) {
-          new IntersectionObserver(function (en) { visible = en[0].isIntersecting; sync(); }).observe(canvas);
-        }
-        document.addEventListener("visibilitychange", sync);
-      }
-      window.addEventListener("resize", function () {
-        clearTimeout(rt);
-        rt = setTimeout(function () { if (reduce) scene.renderStill(scene.kind === "motion" ? 24.2 : scene.kind === "webgl" ? 18 : 9.8); else scene.resize(); }, 150);
+  function loadJs(src, done) { var t = document.createElement("script"); t.src = src; t.onload = t.onerror = done; document.head.appendChild(t); }
+  function startScene() {
+    if (!canvas) return;
+    var host = canvas.parentElement;
+    var scene = window.StarsMotion && window.StarsMotion.create(canvas, host);
+    if (!scene) {
+      /* respaldo: solo se descargan las escenas 3D/2D antiguas si la animación principal no puede crearse */
+      loadJs("js/scene3d.js", function () {
+        var s3 = window.StarsScene3D && window.StarsScene3D.create(canvas, host);
+        if (s3) return runScene(s3);
+        loadJs("js/scene.js", function () { var s2 = window.StarsScene && window.StarsScene.create(canvas, host); if (s2) runScene(s2); });
       });
-      window.__scene = scene; // para pruebas manuales en la consola
+      return;
     }
+    runScene(scene);
   }
-
+  function runScene(scene) {
+    var still = scene.kind === "motion" ? 24.2 : scene.kind === "webgl" ? 18 : 9.8;
+    var visible = true, rt = 0;
+    var sync = function () { if (reduce) return; if (visible && !document.hidden) scene.start(); else scene.stop(); };
+    if (reduce) {
+      scene.renderStill(still); // fotograma estático del momento protagonista
+    } else {
+      sync();
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; sync(); }).observe(canvas);
+      }
+      document.addEventListener("visibilitychange", sync);
+    }
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (reduce) scene.renderStill(still); else scene.resize(); }, 150);
+    });
+    window.__scene = scene; // para pruebas manuales en la consola
+  }
+  startScene();
 
   /* Banco de medios: si un archivo aún no está cargado en el sitio, su bloque se oculta (sin imágenes rotas) */
   var stock = $$(".stock");
