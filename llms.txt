@@ -1,0 +1,38 @@
+# 5STARS — Digital Commerce Platforms
+
+> 5STARS es una agencia de comercio digital de Armenia, Quindío, Colombia. Diseña tiendas online a medida, automatiza el email y los SMS de marketing, y optimiza la experiencia de compra y la conversión de negocios que venden por internet.
+
+Titular: Julian David Martinez Sanchez.
+Sitio: https://5starsagency.com/
+Correo: 5stars@agency.com
+WhatsApp: +57 302 471 3340
+Instagram: https://www.instagram.com/fivestarsco
+
+## Servicios
+
+- Email & SMS marketing automatizado: flujos de carrito abandonado, secuencias de bienvenida, campañas de reactivación, plantillas personalizadas y métricas de rendimiento.
+- Diseño y desarrollo de tiendas online a medida: concepto visual, arquitectura de catálogo, integración de pasarelas de pago, configuración de envíos y tienda lista para operar.
+- Optimización de experiencia y conversión: auditoría del sitio, rediseño de interfaz, simplificación del proceso de pago, optimización de velocidad y pruebas de conversión.
+
+## Método de trabajo
+
+Método Cinco Estrellas: Descubrir (entrevista semiestructurada), Mapear (Customer Journey Map) y Construir (prototipado / wireframing).
+
+## Páginas
+
+- [Inicio y datos clave](https://5starsagency.com/): presentación, servicios, método, preguntas frecuentes y contacto.
+- [Preguntas frecuentes](https://5starsagency.com/#preguntas): qué es 5STARS, servicios, método y límites (no se garantizan ventas ni posicionamiento).
+- [Términos y condiciones](https://5starsagency.com/terminos.html)
+- [Política de privacidad](https://5starsagency.com/privacidad.html)
+- [Propiedad intelectual y créditos de medios](https://5starsagency.com/propiedad-intelectual.html)
+- [Derechos y deberes contractuales](https://5starsagency.com/derechos-y-deberes-contractuales.html)
+
+## Medios
+
+- Las ilustraciones con prefijo "5stars-original" (carpeta /assets/img/) son obras originales de 5STARS, todos los derechos reservados.
+- Las fotos y videos de /assets/media/ son de Pexels (licencia https://www.pexels.com/license/); son material de archivo y no pertenecen a 5STARS. Los autores se acreditan en la página de propiedad intelectual.
+
+## Aclaraciones
+
+- 5STARS no garantiza ventas, posicionamiento en buscadores ni resultados específicos.
+- Los textos legales son plantillas informativas y no sustituyen la asesoría de un abogado.
